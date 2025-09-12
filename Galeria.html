@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeria — JVL Fogos</title>
+  <link rel="stylesheet" href="C:\Users\Coneccta Sistemas\Desktop\Projetos\JVL Fogos\Stylesdapagina\galeria.css">
+</head>
+<body>
+<!-- Header -->
+<header>
+  <div class="brand">
+    <img src="Ftsfogos/logoperfil.png" alt="Logo JVL Fogos" class="logo-img">
+    <span class="logo-text">JVL Fogos</span>
+  </div>
+
+  <!-- Botão Hamburguer -->
+  <button class="hamburger" onclick="document.querySelector('nav').classList.toggle('open')">
+    ☰
+  </button>
+
+  <nav>
+    <a href="index.html">Início</a>
+    <a href="produtos.html">Produtos</a>
+    <a href="galeria.html" class="active">Galeria</a>
+    <a href="contato.html">Contato</a>
+  </nav>
+</header>
+
+<!-- Conteúdo -->
+<main class="wrap">
+  <h1>Nosso Espaço</h1>
+
+  <div class="carousel">
+    <div class="gallery">
+      <img src="galeria/ft-1.jpeg" alt="Loja JVL Fogos">
+      <img src="galeria/ft-2.jpeg" alt="Mostruário JVL Fogos">
+      <img src="galeria/ft-3.jpeg" alt="Estoque de produtos">
+      <img src="galeria/ft-4.jpeg" alt="Atendimento JVL Fogos">
+      <img src="galeria/ft-5.jpeg" alt="Fachada da loja">
+      <img src="galeria/ft-6.jpeg" alt="Interior moderno">
+      <img src="galeria/ft-7.jpeg" alt="Prateleiras organizadas">
+      <img src="galeria/ft-8.jpeg" alt="Espaço da loja">
+      <img src="galeria/ft-9.jpeg" alt="Equipe JVL Fogos">
+    </div>
+  </div>
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <span id="lightboxClose">&times;</span>
+  <img id="lightboxImg" src="" alt="Imagem ampliada">
+</div>
+
+
+<!-- Seção de Vídeos -->
+<section class="wrap section" id="videos">
+  <h2>🎥 Shows pirotécnicos</h2>
+  <div class="video-grid">
+    <!-- Video 1 -->
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" 
+        title="Vídeo 1" frameborder="0" allowfullscreen></iframe>
+      <p>Apresentação da loja</p>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY" 
+        title="Vídeo 2" frameborder="0" allowfullscreen></iframe>
+      <p>Show pirotécnico</p>
+    </div>
+
+    <!-- Video 3 -->
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/sBws8MSXN7A" 
+        title="Vídeo 3" frameborder="0" allowfullscreen></iframe>
+      <p>Como usar fogos com segurança</p>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    © <span id="y"></span> — JVL Fogos | Segurança e emoção em cada celebração
+  </footer>
+
+  <!-- JS -->
+  <script src="C:\Users\Coneccta Sistemas\Desktop\Projetos\JVL Fogos\Js-da-Pagina\galeria.js"></script>
+</body>
+</html>

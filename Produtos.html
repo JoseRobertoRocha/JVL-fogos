@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>JVL Fogos — Catálogo</title>
+  <link rel="stylesheet" href="C:\Users\Coneccta Sistemas\Desktop\Projetos\JVL Fogos\Stylesdapagina\Produtos.css" />
+</head>
+<button class="cart-fab" id="cart-toggle">🛒</button>
+<body>
+  <!-- Canvas fogos -->
+  <canvas id="fireworks"></canvas>
+
+<div class="age-gate" id="ageGate">
+  <div class="age-box">
+    <h2>⚠️ Verificação de Idade</h2>
+    <p>Este site é destinado apenas para maiores de 18 anos.</p>
+    <div class="actions">
+      <button id="ageYes" class="btn primary">Tenho +18</button>
+      <button id="ageNo" class="btn outline">Sou menor</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Lightbox para expandir imagem -->
+  <div id="lightbox" class="lightbox">
+    <span id="lightboxClose" class="close">✕</span>
+    <img id="lightboxImg" src="" alt="Imagem ampliada">
+  </div>
+
+  <!-- Popup de quantidade -->
+  <div id="qtyPopup" class="qty-popup">
+    <div class="popup-box">
+      <h3>Quantas unidades deseja?</h3>
+      <input type="number" id="qtyInput" min="1" value="1">
+      <div class="popup-actions">
+        <button id="confirmQty" class="btn primary">Confirmar</button>
+        <button id="cancelQty" class="btn outline">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cabeçalho -->
+<header class="site-header">
+  <div class="wrap nav-row">
+    <!-- Logo -->
+    <a href="index.html" class="brand">
+      <img src="Ftsfogos/logoperfil.png" alt="JVL Fogos" class="logo-img">
+      <span class="logo-text">JVL - Fogos</span>
+    </a>
+
+    <!-- Botão hamburguer -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <!-- Navegação -->
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Início</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#contato">Contato</a>
+      <button id="openCart" class="cart-btn">
+        🛒 <span>Carrinho</span> <span id="cartCount" class="badge">0</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+  <!-- Hero -->
+  <section id="inicio" class="hero section">
+    <div class="wrap">
+      <h1>Produtos</h1>
+      <p>Adicione produtos à cesta e finalize o pedido direto pelo nosso WhatsApp.</p>
+    </div>
+  </section>
+
+  <!-- Produtos -->
+  <main class="wrap section" id="produtos">
+    <h2>🔥 Produtos em Destaque</h2>
+    <div class="cards-grid">
+
+      <!-- Produto 1 -->
+      <article class="card product" data-sku="RJ-4-OURO" data-price="199.90" data-name="Rojão 4&quot; Abertura Ouro">
+        <div class="product-media"><img src="Ftsfogos/Rojão4AberturaOuro.jpg" alt=""></div>
+        <h3>Rojão 4" Abertura Ouro</h3>
+        <p class="muted">Grande abertura ouro (willow). Ideal para clímax.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 2 -->
+      <article class="card product" data-sku="FG-RASTRO-VERM" data-price="39.50" data-name="Foguete com Rastro Vermelho">
+        <div class="product-media"><img src="Ftsfogos/FoguetecomRastroVermelho.jpg" alt=""></div>
+        <h3>Foguete com Rastro Vermelho</h3>
+        <p class="muted">Rastro vermelho intenso e estouro final.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 3 -->
+      <article class="card product" data-sku="FO-VULCAO-60" data-price="69.90" data-name="Fonte Vulcão Prata 60s">
+        <div class="product-media"><img src="Ftsfogos/FonteVulcãoPrata60s.jpg" alt=""></div>
+        <h3>Fonte Vulcão Prata 60s</h3>
+        <p class="muted">Jato prateado contínuo por até 60 segundos.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 4 -->
+      <article class="card product" data-sku="CP-30" data-price="19.90" data-name="Chuva de Prata 30cm">
+        <div class="product-media"><img src="Ftsfogos/ChuvadePrata30cm.jpg" alt=""></div>
+        <h3>Chuva de Prata 30cm</h3>
+        <p class="muted">Clássico e elegante para áreas abertas.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 5 -->
+      <article class="card product" data-sku="KIT-LF-MISTO" data-price="159.00" data-name="Combo Festa Misto">
+        <div class="product-media"><img src="Ftsfogos/ComboFestaMisto.png" alt=""></div>
+        <h3>Combo Festa Misto</h3>
+        <p class="muted">Seleção segura para uso doméstico em áreas abertas.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 6 -->
+      <article class="card product" data-sku="FG-MULTI" data-price="89.90" data-name="Foguete Multicor">
+        <div class="product-media"><img src="Ftsfogos/FogueteMulticor.png" alt=""></div>
+        <h3>Foguete Multicor</h3>
+        <p class="muted">Subida rápida e explosão multicolorida.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 7 -->
+      <article class="card product" data-sku="Bomba-Batom-N-4" data-price="24.90" data-name="Bomba Batom N-4">
+        <div class="product-media"><img src="Ftsfogos/bombabtomn4.jpg" alt=""></div>
+        <h3>Bomba Batom N-4</h3>
+        <p class="muted">Ideal para festas, com efeito cintilante seguro.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 8 -->
+      <article class="card product" data-sku="RJ-6-PRATA" data-price="249.90" data-name="Rojão 6&quot; Prateado">
+        <div class="product-media"><img src="Ftsfogos/Rojão6Prateado.png" alt=""></div>
+        <h3>Rojão 6" Prateado</h3>
+        <p class="muted">Efeito prateado intenso para grandes eventos.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 9 -->
+      <article class="card product" data-sku="FO-INDOOR" data-price="399.90" data-name="Sparkular Indoor">
+        <div class="product-media"><img src="Ftsfogos/SparkularIndoor.jpg" alt=""></div>
+        <h3>Sparkular Indoor</h3>
+        <p class="muted">Fagulhas frias seguras para casamentos e palcos.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+      <!-- Produto 10 -->
+      <article class="card product" data-sku="KIT-PYRO" data-price="499.00" data-name="Kit Pirotécnico Premium">
+        <div class="product-media"><img src="Ftsfogos/KitPirotécnicoPremium.jpeg" alt=""></div>
+        <h3>Kit Pirotécnico Premium</h3>
+        <p class="muted">Kit completo com variados efeitos especiais.</p>
+        <div class="meta-line"><span class="price" data-price-text></span></div>
+        <div class="actions"><button class="btn primary add-btn">Adicionar</button></div>
+      </article>
+
+    </div>
+  </main>
+
+<!-- Contato -->
+<section id="contato" class="contact-section">
+  <div class="wrap">
+    <h2>📲 Atendimento via WhatsApp</h2>
+    <p>Entre em contato e faça seu orçamento / pedido de forma rápida e prática.</p>
+    <a class="btn whatsapp-btn" href="https://wa.me/5575983130394" target="_blank">
+      💬 Falar no WhatsApp
+    </a>
+  </div>
+</section>
+
+  <!-- Drawer do carrinho -->
+  <aside id="cartDrawer" class="cart-drawer">
+    <div class="cart-head">
+      <h3>Sua Cesta</h3>
+      <button id="closeCart" class="btn outline">✕</button>
+    </div>
+
+    <div id="cartList" class="cart-list"></div>
+
+    <!-- Campos do cliente -->
+    <div class="cart-form">
+      <label>Nome *</label>
+      <input type="text" id="clienteNome" required>
+
+      <label>Email *</label>
+      <input type="email" id="clienteEmail" required>
+
+      <label>CPF/CNPJ</label>
+      <input type="text" id="clienteDoc" placeholder="Opcional">
+    </div>
+
+    <div class="cart-foot">
+      <div class="cart-total">
+        <span>Total:</span> <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+      <button id="checkout" class="btn primary">Finalizar no WhatsApp</button>
+    </div>
+  </aside>
+  <div id="cartBackdrop" class="cart-backdrop"></div>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <div class="footer-brand">
+      <!-- Logo -->
+      <img src="Ftsfogos/logoperfil.png" alt="Logo JVL Fogos" class="footer-logo">
+      <div>
+        <span class="logo"> JVL - Fogos</span>
+        <p class="slogan">Explosões de alegria em cada momento</p>
+      </div>
+    </div>
+
+    <div class="footer-copy">
+      © <span id="y"></span> — Todos os direitos reservados
+    </div>
+  </div>
+</footer>
+
+  <script src="C:\Users\Coneccta Sistemas\Desktop\Projetos\JVL Fogos\Js-da-Pagina\Produtos-script.js"></script>
+</body>
+</html>
