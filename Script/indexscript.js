@@ -316,14 +316,17 @@ function askLocation() {
 
       const city = await getCityName(lat, lon);
 
-      document.getElementById("city-title").textContent = `${city} merece!`;
+      document.getElementById("city-title").textContent = `${city} merece brilho no céu!`;
     }, () => {
-      document.getElementById("city-title").textContent = "Sua cidade merece!";
+      document.getElementById("city-title").textContent = "Sua cidade merece brilho no céu!";
     });
   } else {
-    document.getElementById("city-title").textContent = "Sua cidade merece!";
+    document.getElementById("city-title").textContent = "Sua cidade merece brilho no céu!";
   }
 }
 
 // Executa ao carregar a página
 window.onload = askLocation;
+
+// depoimentos
+
