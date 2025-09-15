@@ -163,7 +163,7 @@ img { max-width:100%; display:block; border-radius:10px; }
 .card .actions { position:absolute; bottom:0; left:0; right:0; }
 .card .add-btn {
   width:100%; border-radius:0 0 12px 12px;
-  background:linear-gradient(90deg,var(--c1),var(--c2));
+  background:linear-gradient(90deg,#ffcc00,#ffcc00);
   color:#fff; font-weight:700; padding:12px;
 }
 
@@ -538,3 +538,4 @@ img { max-width:100%; display:block; border-radius:10px; }
   }
 }
 /* ------ animação wpp ---------*/
+
