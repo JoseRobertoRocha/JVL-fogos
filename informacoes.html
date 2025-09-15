@@ -5,27 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página de Informações — JVL Fogos</title>
   <!-- Use caminho relativo ao invés de C:\ -->
-  <link rel="stylesheet" href="Style/informacoes.css">
+  <link rel="stylesheet" href="Stylesdapagina/informacoes.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="brand">
-      <img src="Ftsfogos/logoperfil.png" alt="Logo JVL Fogos" class="logo-img">
-      <span class="logo-text">JVL Fogos</span>
-    </div>
 
-    <!-- Botão hamburguer -->
-    <button class="menu-toggle" id="menuToggle">☰</button>
+<!-- Header -->
+<header class="site-header">
+  <div class="brand">
+    <img src="Ftsfogos/logoperfil.png" alt="Logo JVL Fogos" class="logo-img">
+    <span class="logo-text">JVL Fogos</span>
+  </div>
 
-    <nav id="navLinks">
-      <a href="index.html">Início</a>
-      <a href="produtos.html">Produtos</a>
-      <a href="galeria.html">Galeria</a>
-      <a href="informacoes.html" class="active">Informações</a>
-      <a href="contato.html">Contato</a>
-    </nav>
-  </header>
+  <!-- Botão hamburguer -->
+  <button class="menu-toggle" id="menuToggle">☰</button>
+
+  <nav id="navLinks">
+    <a href="index.html" class="active">Início</a>
+    <a href="produtos.html">Produtos</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="contato.html">Contato</a>
+    <a href="agendar.html" class="btn-menu">Agendar Show 🎆</a>
+  </nav>
+</header>
 
   <!-- Seção de Informações -->
   <main class="wrap">
@@ -38,7 +39,10 @@
         <img src="galeria/fogosdeartificios.jpg" alt="Fogos e legislação">
         <h2>Fogos de artifício: o que diz a lei?</h2>
         <p>Shows pirotécnicos fazem parte da tradição, mas existem normas legais que garantem a segurança...</p>
-        <a href="#" class="btn" data-info="Fogos de artifícios representam festejos... [texto completo aqui]">Saiba Mais</a>
+        <a href="#" class="btn" data-info="Em caso de acidente com fogos, mantenha a calma. 
+        Queimaduras leves devem ser resfriadas com água corrente por pelo menos 10 minutos. 
+        Não use pomadas ou manteiga. Se houver ferimento grave, chame imediatamente o SAMU (192) 
+        e mantenha a área limpa até a chegada do socorro.">Saiba Mais</a>
       </article>
 
       <!--------------------------------------------- Card 2 -->
@@ -46,16 +50,22 @@
         <img src="galeria/pontosdevendas.jpg" alt="Compra segura">
         <h2>Atenção à compra e pontos de venda</h2>
         <p>Adquira fogos apenas em estabelecimentos licenciados e confiáveis...</p>
-        <a href="#" class="btn" data-info="O primeiro passo, e talvez o mais importante... [texto completo aqui]">Saiba Mais</a>
+        <a href="#" class="btn" data-info="Se os fogos adquiridos explodirem de forma inesperada e atingirem alguém, 
+        afaste a vítima do local de risco. Avalie sinais vitais e acione o socorro. Em casos de lesões nos olhos ou cortes profundos, 
+        evite pressionar a região e cubra levemente com um pano limpo até atendimento médico.">Saiba Mais</a>
       </article>
 
-      <!---------------------------------------------- Card 3 -->
-      <article class="info-card">
-        <img src="galeria/primirosocorros.jpg" alt="Primeiros socorros">
-        <h2>Primeiros socorros: como proceder?</h2>
-        <p>Mesmo com todos os cuidados, acidentes podem acontecer...</p>
-        <a href="#" class="btn" data-info="Mesmo tomando todas as medidas de cuidado... [texto completo aqui]">Saiba Mais</a>
-      </article>
+<!---------------------------------------------- Card 3 -->
+<article class="info-card">
+  <img src="galeria/primirosocorros.jpg" alt="Primeiros socorros">
+  <h2>Primeiros socorros: como proceder?</h2>
+  <p>Mesmo com atenção, acidentes podem acontecer. Saber agir faz diferença.</p>
+  <a href="#" class="btn" data-info="Mantenha um kit básico de primeiros socorros disponível. 
+  • Queimaduras: lave em água corrente por 10 minutos e cubra com gaze estéril. 
+  • Cortes: pressione com pano limpo até estancar. 
+  • Desmaios: deite a vítima e verifique a respiração. 
+  Sempre acione atendimento médico em casos graves.">Saiba Mais</a>
+</article>
 
       <!---------------------------------------------- Card 4 -->
       <article class="info-card">
@@ -96,7 +106,7 @@
     <div class="popup-content">
       <span id="popup-close">&times;</span>
       <div class="popup-header">
-        <img id="popup-icon" src="" alt="Ícone" class="popup-icon">
+        <img id="popup-icon" src="https://img.icons8.com/?size=100&id=SwvDja4ryubi&format=png&color=000000" alt="Ícone" class="popup-icon">
         <h3 id="popup-title">Informação Detalhada</h3>
       </div>
       <p id="popup-text"></p>
@@ -109,7 +119,6 @@
   </footer>
 
   <!-- Corrigido: caminho relativo para o JS -->
-  <script src="Script/informacoes.js"></script>
+  <script src="Js-da-Pagina/informacoes.js"></script>
 </body>
-
 </html>
