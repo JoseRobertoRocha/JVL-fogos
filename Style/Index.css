@@ -468,6 +468,8 @@ a.btn-animado:hover .star-6 { top: 5%;  left: 60%;  filter: drop-shadow(0 0 10px
   }
 }
 .titulo-chamativo {
+  color: #f7f228;
+  -webkit-text-fill-color: #f7f228; 
   font-family: 'Anton', sans-serif;
   font-size: clamp(2rem, 6vw, 4.2rem); /* proporção por tela */
   text-align: center;
@@ -586,3 +588,4 @@ a.btn-animado:hover .star-6 { top: 5%;  left: 60%;  filter: drop-shadow(0 0 10px
     text-shadow: 0 0 20px #ffe066, 0 0 40px #ffcc00;
   }
 }
+
