@@ -1,3 +1,184 @@
+/* Header aprimorado */
+.site-header {
+  display: flex;
+  align-items: center;       /* centra verticalmente todos os filhos */
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 72px;              /* altura fixa do header — evita desalinhamento */
+  box-sizing: border-box;
+  background: rgba(0,0,0,.92);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* marca (logo + texto) */
+.brand {
+  display: flex;
+  align-items: center;       /* garante que imagem e texto fiquem na mesma linha */
+  gap: 12px;
+}
+
+/* imagem da logo */
+.logo-img {
+  height: 48px;              /* definir tamanho consistente */
+  width: auto;
+  display: block;            /* remove baseline gap de imagens inline */
+  object-fit: contain;
+}
+
+/* texto da logo */
+.logo-text {
+  display: inline-block;
+  line-height: 1;            /* garante que não tenha espaçamento extra */
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--accent);
+  vertical-align: middle;
+}
+
+/* navegação */
+#navLinks {
+  display: flex;
+  align-items: center;       /* alinha os links verticalmente ao centro */
+  gap: 1.25rem;
+}
+
+/* cada link */
+#navLinks a, #navLinks .btn-menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;              /* faz os links terem mesma altura visual do header */
+  padding: 0 12px;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--fg);
+  transition: color .25s, transform .15s;
+}
+
+/* estilo do botão principal */
+#navLinks .btn-menu {
+  padding: 8px 14px;
+  border-radius: 30px;
+  background: linear-gradient(90deg,#ffcc00,#ff4d4d);
+  color: #000;
+  height: auto;              /* permite altura pelo padding quando necessário */
+}
+
+/* hover / ativo */
+#navLinks a.active,
+#navLinks a:hover {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+}
+
+/* Mobile: manter alinhamento no menu aberto */
+@media (max-width: 768px) {
+  #navLinks {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 72px;
+    right: 15px;
+    background: rgba(0,0,0,.95);
+    padding: 1.6rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.6);
+  }
+  #navLinks.show { display: flex; }
+  .menu-toggle { display: block; }
+}
+/* Header */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: rgba(0,0,0,.92);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo-img {
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+.logo-text {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+/* Links */
+#navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+#navLinks a {
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color .3s, text-shadow .3s;
+}
+#navLinks a.active,
+#navLinks a:hover {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+}
+
+/* Botão destaque no menu */
+#navLinks .btn-menu {
+  background: linear-gradient(90deg, #ffcc00, #ff4d4d);
+  color: #000;
+  padding: .5rem 1rem;
+  border-radius: 30px;
+  font-weight: 700;
+  transition: all .3s ease;
+}
+#navLinks .btn-menu:hover {
+  background: linear-gradient(90deg, #ff4d4d, #ffcc00);
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+}
+
+/* Botão hamburguer */
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #navLinks {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 65px;
+    right: 15px;
+    background: rgba(0,0,0,.95);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.6);
+    z-index: 1000;
+  }
+  #navLinks.show { display: flex; }
+  .menu-toggle { display: block; }
+  #navLinks .btn-menu { margin-top: 10px; }
+}
 :root {
   --bg-1: #070a12;
   --bg-2: #0d1220;
@@ -13,7 +194,7 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
-  color: var(--fg);
+  color: #f7f228;
 }
 
 /* Header */
@@ -64,8 +245,8 @@ body {
     position: absolute;
     top: 60px;
     right: 10px;
-    background: #111;
-    padding: 1rem;
+    background: #f30101;
+    padding: 3.1rem;
     border-radius: 8px;
     z-index: 1000;
   }
@@ -114,7 +295,7 @@ body {
 .info-card h2 {
   font-size: clamp(1rem, 2.5vw, 1.4rem);
   margin: 1rem 0 .5rem;
-  color: var(--accent);
+  color: #f7f228;
 }
 .info-card p {
   flex-grow: 1;
@@ -131,8 +312,8 @@ body {
 /* Botões gerais */
 .btn {
   display: inline-block;
-  background: var(--accent);
-  color: #fff;
+  background: #f7f228;
+  color: #0a0a0a;
   padding: .6rem 1.2rem;
   border-radius: 10px;
   font-weight: 600;
