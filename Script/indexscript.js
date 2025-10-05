@@ -10,10 +10,48 @@ menuToggle.addEventListener("click", () => {
   navLinks.classList.toggle("open");
 });
 
-// ===== Canvas de fogos =====
+// ===== Canvas de fogos com otimizações =====
 const canvas = document.getElementById("fireworks-canvas");
 const ctx = canvas.getContext("2d");
 let fireworks = [], particles = [], running = true;
+
+// ===== Monitor de Performance =====
+const PerformanceMonitor = {
+  frameCount: 0,
+  lastTime: 0,
+  fps: 0,
+  lowPerformanceThreshold: 30,
+  
+  update(currentTime) {
+    this.frameCount++;
+    
+    if (currentTime - this.lastTime >= 1000) {
+      this.fps = this.frameCount;
+      this.frameCount = 0;
+      this.lastTime = currentTime;
+      
+      // Auto-otimização baseada no FPS
+      this.autoOptimize();
+    }
+  },
+  
+  autoOptimize() {
+    if (this.fps < this.lowPerformanceThreshold) {
+      // Reduz qualidade em dispositivos mais fracos
+      FireworkSpawner.spawnRate = Math.min(FireworkSpawner.spawnRate + 200, 2000);
+      
+      // Limita partículas mais agressivamente
+      if (particles.length > 500) {
+        particles.splice(0, particles.length - 500);
+      }
+      
+      console.log(`Performance baixa detectada (${this.fps} FPS). Otimizando...`);
+    } else if (this.fps > 50 && FireworkSpawner.spawnRate > 1000) {
+      // Melhora qualidade se o performance permite
+      FireworkSpawner.spawnRate = Math.max(FireworkSpawner.spawnRate - 100, 1000);
+    }
+  }
+};
 
 // === Efeito de círculo de estrelas brilhantes ===
 function spawnStarCircle(centerX, centerY) {
@@ -113,12 +151,34 @@ class SparkParticle {
 
 // O efeito de círculo de estrelas agora é disparado junto com a explosão dos foguetes
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+// ===== Sistema de Canvas Otimizado =====
+const CanvasManager = {
+  resizeTimeout: null,
+  
+  resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    
+    // Otimiza para diferentes densidades de pixel
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    
+    ctx.scale(dpr, dpr);
+  },
+
+  // Debounced resize para melhor performance
+  handleResize() {
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(() => {
+      this.resizeCanvas();
+    }, 100);
+  }
+};
+
+window.addEventListener("resize", () => CanvasManager.handleResize());
+CanvasManager.resizeCanvas();
 
 class Firework {
   constructor(x, y, targetY, color) {
@@ -161,53 +221,148 @@ class Particle {
     ctx.globalAlpha = 1;
   }
 }
-function animate() {
-  if (!running) return;
-  ctx.fillStyle = "rgba(7,10,18,0.2)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  fireworks.forEach((f, i) => { f.update(); f.draw(); if (f.exploded) fireworks.splice(i, 1); });
-  for (let i = 0; i < particles.length; i++) {
-    const p = particles[i];
-    p.update();
-    p.draw();
-    if (
-      (p instanceof Particle && p.life <= 0) ||
-      (typeof StarParticle !== 'undefined' && p instanceof StarParticle && p.life <= 0) ||
-      (typeof SparkParticle !== 'undefined' && p instanceof SparkParticle && p.life <= 0)
-    ) {
-      particles.splice(i, 1); i--;
+// ===== Sistema de Animação Otimizado =====
+const AnimationManager = {
+  lastTime: 0,
+  targetFPS: 60,
+  frameInterval: 1000 / 60,
+  
+  animate(currentTime) {
+    if (!running) return;
+    
+    // Monitor de performance
+    PerformanceMonitor.update(currentTime);
+    
+    // Controle de FPS para melhor performance
+    if (currentTime - this.lastTime < this.frameInterval) {
+      requestAnimationFrame((time) => this.animate(time));
+      return;
+    }
+    
+    this.lastTime = currentTime;
+    
+    // Limpa canvas com melhor performance
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = "rgba(7,10,18,0.2)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Otimiza loops para melhor performance
+    this.updateFireworks();
+    this.updateParticles();
+    
+    requestAnimationFrame((time) => this.animate(time));
+  },
+
+  updateFireworks() {
+    // Processa fogos de artifício com melhor performance
+    for (let i = fireworks.length - 1; i >= 0; i--) {
+      const f = fireworks[i];
+      f.update();
+      f.draw();
+      if (f.exploded) {
+        fireworks.splice(i, 1);
+      }
+    }
+  },
+
+  updateParticles() {
+    // Limita número máximo de partículas para performance
+    const maxParticles = 1000;
+    if (particles.length > maxParticles) {
+      particles.splice(0, particles.length - maxParticles);
+    }
+
+    // Processa partículas com melhor performance
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.update();
+      p.draw();
+      
+      if (
+        (p instanceof Particle && p.life <= 0) ||
+        (typeof StarParticle !== 'undefined' && p instanceof StarParticle && p.life <= 0) ||
+        (typeof SparkParticle !== 'undefined' && p instanceof SparkParticle && p.life <= 0)
+      ) {
+        particles.splice(i, 1);
+      }
     }
   }
-  requestAnimationFrame(animate);
-}
-setInterval(() => {
-  let x = Math.random() * canvas.width;
-  let color = `hsl(${Math.random() * 360},100%,50%)`;
-  fireworks.push(new Firework(x, canvas.height, Math.random() * canvas.height / 2 + 100, color));
-}, 1000);
-animate();
+};
 
-// ===== Explosão ao clicar em botões/links =====
-function explodeAt(x, y) {
-  let color = `hsl(${Math.random() * 360},100%,50%)`;
-  for (let i = 0; i < 60; i++) {
-    particles.push(new Particle(x, y, color));
+// Inicia animação otimizada
+requestAnimationFrame((time) => AnimationManager.animate(time));
+// ===== Gerador de Fogos Otimizado =====
+const FireworkSpawner = {
+  interval: null,
+  spawnRate: 1000, // ms entre fogos
+  
+  start() {
+    this.interval = setInterval(() => {
+      // Verifica se há muitos fogos para evitar sobrecarga
+      if (fireworks.length < 10) {
+        const x = Math.random() * canvas.width;
+        const color = `hsl(${Math.random() * 360},100%,50%)`;
+        fireworks.push(new Firework(x, canvas.height, Math.random() * canvas.height / 2 + 100, color));
+      }
+    }, this.spawnRate);
+  },
+  
+  stop() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
   }
-}
+};
 
-// Pega apenas botões e links que você tem no HTML
-const clickable = document.querySelectorAll(
-  "a.btn, a.cta-btn, .nav-links a, .hero-actions a"
-);
+// Inicia o gerador de fogos
+FireworkSpawner.start();
 
-clickable.forEach(el => {
-  el.addEventListener("click", (e) => {
+// ===== Sistema de Explosões Interativas Otimizado =====
+const InteractionManager = {
+  throttleTimeout: null,
+  
+  explodeAt(x, y) {
+    // Throttle para evitar muitas explosões simultâneas
+    if (this.throttleTimeout) return;
+    
+    this.throttleTimeout = setTimeout(() => {
+      this.throttleTimeout = null;
+    }, 100);
+
+    const color = `hsl(${Math.random() * 360},100%,50%)`;
+    const particleCount = Math.min(60, 100 - particles.length); // Limita baseado no número atual
+    
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle(x, y, color));
+    }
+    
+    // Adiciona efeito de círculo de estrelas ocasionalmente
+    if (Math.random() < 0.3) {
+      spawnStarCircle(x, y);
+    }
+  },
+
+  handleClick(e) {
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    explodeAt(x, y);
-  });
-});
+    this.explodeAt(x, y);
+  },
+
+  init() {
+    // Usa event delegation para melhor performance
+    document.addEventListener("click", (e) => {
+      const target = e.target.closest("a.btn, a.cta-btn, .nav-links a, .hero-actions a, .card");
+      if (target) {
+        this.handleClick(e);
+      }
+    });
+  }
+};
+
+// Inicializa sistema de interações
+InteractionManager.init();
 
 // === Popup de segurança ===
 const popup = document.getElementById("popup");
@@ -233,20 +388,35 @@ popup.addEventListener("click", (e) => {
   if (e.target === popup) popup.style.display = "none";
 });
 
-function adaptScreen() {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  const ratio = (w / h).toFixed(2);
+// ===== Sistema de Adaptação de Tela Otimizado =====
+const ScreenAdapter = {
+  timeout: null,
+  
+  adaptScreen() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const ratio = (w / h).toFixed(2);
 
-  // Definir no :root
-  document.documentElement.style.setProperty("--screen-w", w + "px");
-  document.documentElement.style.setProperty("--screen-h", h + "px");
-  document.documentElement.style.setProperty("--screen-ratio", ratio);
-}
+    // Otimização: usar requestAnimationFrame para melhor performance
+    requestAnimationFrame(() => {
+      document.documentElement.style.setProperty("--screen-w", w + "px");
+      document.documentElement.style.setProperty("--screen-h", h + "px");
+      document.documentElement.style.setProperty("--screen-ratio", ratio);
+    });
+  },
 
-// inicializar e reagir ao resize
-window.addEventListener("load", adaptScreen);
-window.addEventListener("resize", adaptScreen);
+  // Debounced para evitar múltiplas execuções
+  handleResize() {
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.adaptScreen();
+    }, 16); // ~60fps
+  }
+};
+
+// Inicializar e reagir ao resize com melhor performance
+window.addEventListener("load", () => ScreenAdapter.adaptScreen());
+window.addEventListener("resize", () => ScreenAdapter.handleResize());
 document.addEventListener("DOMContentLoaded", () => {
   const testimonials = document.querySelectorAll(".testimonial");
   const prevBtn = document.getElementById("prev");
@@ -292,41 +462,177 @@ document.addEventListener("DOMContentLoaded", () => {
   startAutoSlide();
 });
 
-// localização 
+// ===== Sistema de Localização Otimizado =====
+const LocationManager = {
+  cache: new Map(),
+  cacheTimeout: 30 * 60 * 1000, // 30 minutos
+  fallbackCity: "Sua cidade",
 
-async function getCityName(lat, lon) {
-  try {
-    // Usando Nominatim (OpenStreetMap)
+  // Múltiplas APIs para melhor precisão
+  async getCityFromNominatim(lat, lon) {
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=pt-BR,pt,en`
     );
     const data = await response.json();
-    return data.address.city || data.address.town || data.address.village || "sua cidade";
-  } catch (error) {
-    console.error("Erro ao buscar cidade:", error);
-    return "sua cidade";
-  }
-}
+    
+    // Prioriza cidades brasileiras e melhora a seleção
+    const address = data.address || {};
+    return address.city || 
+           address.town || 
+           address.municipality || 
+           address.village || 
+           address.hamlet || 
+           address.suburb ||
+           address.neighbourhood ||
+           null;
+  },
 
-function askLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+  async getCityFromOpenCage(lat, lon) {
+    // Fallback API (requer chave, mas tem melhor precisão no Brasil)
+    try {
+      const response = await fetch(
+        `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=YOUR_API_KEY&language=pt&countrycode=br`
+      );
+      const data = await response.json();
+      if (data.results && data.results[0]) {
+        const components = data.results[0].components;
+        return components.city || components.town || components.village || null;
+      }
+    } catch (error) {
+      console.warn("OpenCage API falhou:", error);
+    }
+    return null;
+  },
 
-      const city = await getCityName(lat, lon);
+  async getCityName(lat, lon) {
+    const cacheKey = `${lat.toFixed(3)},${lon.toFixed(3)}`;
+    const cached = this.cache.get(cacheKey);
+    
+    // Verifica cache válido
+    if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
+      return cached.city;
+    }
 
-      document.getElementById("city-title").textContent = `${city} merece brilho no céu!`;
-    }, () => {
-      document.getElementById("city-title").textContent = "Sua cidade merece brilho no céu!";
+    try {
+      // Tenta múltiplas APIs para melhor precisão
+      let city = await this.getCityFromNominatim(lat, lon);
+      
+      if (!city) {
+        city = await this.getCityFromOpenCage(lat, lon);
+      }
+
+      // Limpa e formata o nome da cidade
+      if (city) {
+        city = city.trim()
+          .replace(/^(Município de|City of)\s+/i, '')
+          .replace(/\s+/g, ' ');
+        
+        // Cache o resultado
+        this.cache.set(cacheKey, {
+          city,
+          timestamp: Date.now()
+        });
+        
+        return city;
+      }
+    } catch (error) {
+      console.error("Erro ao buscar localização:", error);
+    }
+
+    return this.fallbackCity;
+  },
+
+  async getCurrentLocation() {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocalização não suportada"));
+        return;
+      }
+
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 5 * 60 * 1000 // Cache por 5 minutos
+      };
+
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
     });
-  } else {
-    document.getElementById("city-title").textContent = "Sua cidade merece brilho no céu!";
+  },
+
+  async updateCityTitle() {
+    const titleElement = document.getElementById("city-title");
+    if (!titleElement) return;
+
+    try {
+      // Mostra loading
+      titleElement.textContent = "Localizando...";
+      
+      const position = await this.getCurrentLocation();
+      const { latitude: lat, longitude: lon } = position.coords;
+      const city = await this.getCityName(lat, lon);
+      
+      // Animação suave para mudança do texto
+      titleElement.style.opacity = '0.5';
+      setTimeout(() => {
+        titleElement.textContent = `${city} merece brilho no céu!`;
+        titleElement.style.opacity = '1';
+      }, 200);
+
+    } catch (error) {
+      console.warn("Não foi possível obter localização:", error.message);
+      titleElement.textContent = "Sua cidade merece brilho no céu!";
+    }
   }
-}
+};
 
-// Executa ao carregar a página
-window.onload = askLocation;
+// ===== Sistema de Visibilidade para Otimização =====
+const VisibilityManager = {
+  init() {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        // Pausa animações quando aba não está ativa
+        running = false;
+        FireworkSpawner.stop();
+      } else {
+        // Resume animações quando aba fica ativa
+        running = true;
+        FireworkSpawner.start();
+        requestAnimationFrame((time) => AnimationManager.animate(time));
+      }
+    });
+    
+    // Pausa/resume baseado no foco da janela
+    window.addEventListener("blur", () => {
+      running = false;
+      FireworkSpawner.stop();
+    });
+    
+    window.addEventListener("focus", () => {
+      if (!document.hidden) {
+        running = true;
+        FireworkSpawner.start();
+        requestAnimationFrame((time) => AnimationManager.animate(time));
+      }
+    });
+  }
+};
 
-// depoimentos
-
+// ===== Inicialização Otimizada =====
+document.addEventListener("DOMContentLoaded", () => {
+  // Sistema de localização
+  LocationManager.updateCityTitle();
+  
+  // Sistema de visibilidade
+  VisibilityManager.init();
+  
+  // Preload apenas de imagens críticas
+  const criticalImages = [
+    "Ftsfogos/logoperfil.png", 
+    "Ftsfogos/magia.png"
+  ];
+  
+  criticalImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+});
